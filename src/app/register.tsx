@@ -9,17 +9,6 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -29,9 +18,66 @@ import {
   DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 const wilayas = [
-  "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Algiers", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane"
+  "Adrar",
+  "Chlef",
+  "Laghouat",
+  "Oum El Bouaghi",
+  "Batna",
+  "Béjaïa",
+  "Biskra",
+  "Béchar",
+  "Blida",
+  "Bouira",
+  "Tamanrasset",
+  "Tébessa",
+  "Tlemcen",
+  "Tiaret",
+  "Tizi Ouzou",
+  "Algiers",
+  "Djelfa",
+  "Jijel",
+  "Sétif",
+  "Saïda",
+  "Skikda",
+  "Sidi Bel Abbès",
+  "Annaba",
+  "Guelma",
+  "Constantine",
+  "Médéa",
+  "Mostaganem",
+  "M'Sila",
+  "Mascara",
+  "Ouargla",
+  "Oran",
+  "El Bayadh",
+  "Illizi",
+  "Bordj Bou Arréridj",
+  "Boumerdès",
+  "El Tarf",
+  "Tindouf",
+  "Tissemsilt",
+  "El Oued",
+  "Khenchela",
+  "Souk Ahras",
+  "Tipaza",
+  "Mila",
+  "Aïn Defla",
+  "Naâma",
+  "Aïn Témouchent",
+  "Ghardaïa",
+  "Relizane",
 ];
 
 function validateEmail(email: string) {
@@ -55,6 +101,7 @@ export default function RegisterForm({
   const [resetEmail, setResetEmail] = useState("");
   const [resetLoading, setResetLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState("");
+  const router = useRouter();
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
@@ -93,8 +140,7 @@ export default function RegisterForm({
       if (!res.ok) throw new Error(data.message || "Registration failed");
       setRegSuccess("Registration successful! You can now log in.");
       setRegError("");
-      // Optionally, switch to login form
-      // onSwitchToLogin();
+      router.push("/dashboard");
     } catch (err: any) {
       setRegError(err.message);
     } finally {
@@ -198,11 +244,7 @@ export default function RegisterForm({
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={regLoading}
-          >
+          <Button className="w-full" type="submit" disabled={regLoading}>
             {regLoading ? "Loading..." : "Register"}
           </Button>
           <Separator className="my-2" />
@@ -239,16 +281,30 @@ export default function RegisterForm({
                   type="email"
                   placeholder="Enter your email"
                   value={resetEmail}
-                  onChange={e => setResetEmail(e.target.value)}
+                  onChange={(e) => setResetEmail(e.target.value)}
                   required
                 />
-                {resetMessage && <div className="text-xs text-center text-green-600">{resetMessage}</div>}
+                {resetMessage && (
+                  <div className="text-xs text-center text-green-600">
+                    {resetMessage}
+                  </div>
+                )}
                 <DialogFooter>
-                  <Button type="submit" disabled={resetLoading} className="w-full">
+                  <Button
+                    type="submit"
+                    disabled={resetLoading}
+                    className="w-full"
+                  >
                     {resetLoading ? "Sending..." : "Send Reset Email"}
                   </Button>
                   <DialogClose asChild>
-                    <Button type="button" variant="outline" className="w-full">Close</Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      Close
+                    </Button>
                   </DialogClose>
                 </DialogFooter>
               </form>

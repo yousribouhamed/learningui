@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 function validateEmail(email: string) {
   return /\S+@\S+\.\S+/.test(email);
@@ -27,6 +28,7 @@ export default function LoginForm({
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
+  const router = useRouter();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -50,7 +52,7 @@ export default function LoginForm({
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
       setLoginError("");
-      alert("Login successful!");
+      router.push("/dashboard");
     } catch (err: any) {
       setLoginError(err.message);
     } finally {
@@ -114,21 +116,9 @@ export default function LoginForm({
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full justify-end">
           <Button
-            variant="outline"
-            className="w-1/2 mr-2"
-            type="button"
-            onClick={() => {
-              setLoginEmail("");
-              setLoginPassword("");
-              setLoginError("");
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="w-1/2 ml-2"
+            className="w-1/2"
             type="submit"
             disabled={loginLoading}
           >
