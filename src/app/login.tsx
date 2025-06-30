@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
+  Card,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -118,7 +119,7 @@ export default function LoginForm({
       <CardFooter className="flex flex-col gap-2">
         <div className="flex w-full justify-end">
           <Button
-            className="w-1/2"
+            className="w-full"
             type="submit"
             disabled={loginLoading}
           >
